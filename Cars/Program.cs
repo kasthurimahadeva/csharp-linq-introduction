@@ -16,18 +16,23 @@ namespace Cars
                 orderby car.Combined descending, car.Name
                 select car;
 
-            var query2 = cars
-                .OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name)
-                .First(c => c.Manufacturer == "BMW" && c.Year == 2016);
-            
-            var query3 = cars
-                .OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name)
-                .FirstOrDefault(c => c.Manufacturer == "BMW" && c.Year == 2016);
-            
-            query2.Log();
-            query3?.Log();
+            // var query2 = cars
+            //     .OrderByDescending(c => c.Combined)
+            //     .ThenBy(c => c.Name)
+            //     .First(c => c.Manufacturer == "BMW" && c.Year == 2016);
+            //
+            // var query3 = cars
+            //     .OrderByDescending(c => c.Combined)
+            //     .ThenBy(c => c.Name)
+            //     .FirstOrDefault(c => c.Manufacturer == "BMW" && c.Year == 2016);
+            //
+            // query2.Log();
+            // query3?.Log();
+
+            var result = cars.Any(c => c.Manufacturer == "Ford");
+            var result1 = cars.All(c => c.Manufacturer == "Ford");
+            Console.WriteLine(result);
+            Console.WriteLine(result1);
         }
 
         private static List<Car> ProcessFile(string path)
