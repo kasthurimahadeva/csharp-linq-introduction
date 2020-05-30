@@ -36,6 +36,20 @@ namespace Cars
                     })
                 .OrderByDescending(c => c.Combined)
                 .ThenBy(c => c.Name);
+
+            var result2 = from car in cars
+                group car by car.Manufacturer;
+
+            var result3 = cars.GroupBy(c => c.Manufacturer);
+            
+            foreach (var group in result2)
+            {
+                Console.WriteLine($"{group.Key} has {group.Count()} cars");
+                foreach (var car in group.Take(10))
+                {
+                    Console.WriteLine($"{car.Manufacturer, -30} : {car.Combined, 10:N0}");
+                }
+            }
         }
 
         private static List<T> ProcessFile<T>(string path, Func<IEnumerable<string>, IEnumerable<T>> function)
