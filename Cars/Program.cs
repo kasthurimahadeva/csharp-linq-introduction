@@ -17,26 +17,17 @@ namespace Cars
                 select car;
 
             var query2 = cars
-                .Where(c => c.Manufacturer == "BMW" && c.Year == 2016)
                 .OrderByDescending(c => c.Combined)
-                .ThenBy(c => c.Name);
-
-            foreach (var car in query.Take(10))
-            {
-                car.Log();
-            }
+                .ThenBy(c => c.Name)
+                .First(c => c.Manufacturer == "BMW" && c.Year == 2016);
             
-            Console.WriteLine("*******************");
+            var query3 = cars
+                .OrderByDescending(c => c.Combined)
+                .ThenBy(c => c.Name)
+                .FirstOrDefault(c => c.Manufacturer == "BMW" && c.Year == 2016);
             
-            foreach (var car in query2.Take(10))
-            {
-                car.Log();
-            }
-
-            // foreach (var car in cars.Take(10))
-            // {
-            //     car.Log();
-            // }
+            query2.Log();
+            query3?.Log();
         }
 
         private static List<Car> ProcessFile(string path)
