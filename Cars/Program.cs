@@ -51,11 +51,34 @@ namespace Cars
                 .OrderByDescending(c => c.Combined)
                 .GroupBy(c => c.Manufacturer)
                 .OrderByDescending(c => c.Key);
+
+
+            var result4 = from manufacturer in manufacturers
+                join car in cars on manufacturer.Name equals car.Manufacturer into carGroup
+                orderby manufacturer.Name descending
+                select new
+                {
+                    manufacturer.Name,
+                    manufacturer.Location,
+                    Cars = carGroup
+                };
+
+            var result5 = manufacturers
+                .GroupJoin(cars,
+                    m => m.Name,
+                    c => c.Manufacturer,
+                    (m, c) => new
+                    {
+                        m.Name,
+                        m.Location,
+                        Cars = c.OrderByDescending(car => car.Combined)
+                    })
+                .OrderByDescending(g => g.Name);
             
-            foreach (var group in result2)
+            foreach (var group in result4)
             {
-                Console.WriteLine($"{group.Key} has {group.Count()} cars");
-                foreach (var car in group.Take(10))
+                Console.WriteLine($"{group.Name} : {group.Location }has {group.Cars.Count()} cars");
+                foreach (var car in group.Cars.Take(10))
                 {
                     Console.WriteLine($"{car.Manufacturer, -30} : {car.Combined, 10:N0}");
                 }
