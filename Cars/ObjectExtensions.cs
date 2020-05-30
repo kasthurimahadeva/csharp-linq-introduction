@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Cars
 {
-    public static class CarExtensions
+    public static class ObjectExtensions
     {
         public static void Log(this Car car)
         {
@@ -24,6 +24,16 @@ namespace Cars
                     City = int.Parse(str[6]),
                     Highway = int.Parse(str[6]),
                     Combined = int.Parse(str[7])
+                });
+        }
+        public static IEnumerable<Manufacturer> ToManufacturer(this IEnumerable<string> lines)
+        {
+            return lines.Select(l => l.Split(","))
+                .Select(str => new Manufacturer
+                {
+                    Name = str[0],
+                    Location = str[1],
+                    Year = int.Parse(str[2]),
                 });
         }
     }
