@@ -38,9 +38,19 @@ namespace Cars
                 .ThenBy(c => c.Name);
 
             var result2 = from car in cars
-                group car by car.Manufacturer;
+                select new {car.Manufacturer, car.Combined}
+                into carDetails
+                orderby carDetails.Combined descending
+                group carDetails by carDetails.Manufacturer
+                into carGroup
+                orderby carGroup.Key
+                select carGroup;
 
-            var result3 = cars.GroupBy(c => c.Manufacturer);
+            var result3 = cars
+                .Select(c => new {c.Manufacturer, c.Combined})
+                .OrderByDescending(c => c.Combined)
+                .GroupBy(c => c.Manufacturer)
+                .OrderByDescending(c => c.Key);
             
             foreach (var group in result2)
             {
